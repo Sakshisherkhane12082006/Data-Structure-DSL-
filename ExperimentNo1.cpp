@@ -4,7 +4,7 @@ using namespace std;
 int main()
 {
     int arr[50] = {20, 30, 52, 47, 60}; 
-    int n = 5;                         
+    int n = 5;                        
     int choice, pos, value, key;
     int i, found;
 
