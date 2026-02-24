@@ -1,75 +1,93 @@
 package ExperimentNo5;
+import java.util.Scanner;
+
 class Stack {
     int arr[];
     int top;
-    int capacity;
+    int size;
 
-    // Constructor
-    Stack(int size) {
-        capacity = size;
-        arr = new int[capacity];
+    Stack(int s) {
+        size = s;
+        arr = new int[size];
         top = -1;
     }
 
-    // Push operation
     void push(int value) {
-        if (top == capacity - 1) {
-            System.out.println("Stack Overflow! Cannot push " + value);
-            return;
+        if (top == size - 1) {
+            System.out.println("Stack Overflow");
+        } else {
+            top = top + 1;
+            arr[top] = value;
+            System.out.println("Inserted: " + value);
         }
-        arr[++top] = value;
-        System.out.println(value + " pushed into stack");
     }
 
-    // Pop operation
-    int pop() {
+    void pop() {
         if (top == -1) {
-            System.out.println("Stack Underflow! Stack is empty");
-            return -1;
+            System.out.println("Stack Underflow");
+        } else {
+            System.out.println("Deleted: " + arr[top]);
+            top = top - 1;
         }
-        return arr[top--];
     }
 
-    // Peek operation
-    int peek() {
-        if (top == -1) {
-            System.out.println("Stack is empty");
-            return -1;
-        }
-        return arr[top];
-    }
-
-    // Check if stack is empty
-    boolean isEmpty() {
-        return top == -1;
-    }
-
-    // Display stack elements
     void display() {
         if (top == -1) {
-            System.out.println("Stack is empty");
-            return;
-        }
-        System.out.println("Stack elements:");
-        for (int i = top; i >= 0; i--) {
-            System.out.println(arr[i]);
+            System.out.println("Stack is Empty");
+        } else {
+            System.out.println("Stack Elements:");
+            for (int i = top; i >= 0; i--) {
+                System.out.println(arr[i]);
+            }
         }
     }
 }
 
 public class Main {
-    public static void main(String[] args) {
-        Stack stack = new Stack(5);
+    public static void main(String args[]) {
 
-        stack.push(10);
-        stack.push(20);
-        stack.push(30);
+        Scanner sc = new Scanner(System.in);
 
-        stack.display();
+        System.out.print("Enter stack size: ");
+        int size = sc.nextInt();
 
-        System.out.println("Popped element: " + stack.pop());
-        System.out.println("Top element: " + stack.peek());
+        Stack s = new Stack(size);
 
-        stack.display();
+        int choice, value;
+
+        do {
+            System.out.println("\n1.Push");
+            System.out.println("2.Pop");
+            System.out.println("3.Display");
+            System.out.println("4.Exit");
+            System.out.print("Enter choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.print("Enter value: ");
+                    value = sc.nextInt();
+                    s.push(value);
+                    break;
+
+                case 2:
+                    s.pop();
+                    break;
+
+                case 3:
+                    s.display();
+                    break;
+
+                case 4:
+                    System.out.println("Program Ended");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+
+        } while (choice != 4);
     }
 }
