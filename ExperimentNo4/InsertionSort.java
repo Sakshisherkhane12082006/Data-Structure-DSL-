@@ -1,4 +1,4 @@
-package ExperimentNo5;
+package ExperimentNo4;
 
 class InsertionSort {
     public static void main(String[] args) {
