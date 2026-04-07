@@ -1,67 +1,85 @@
 import java.util.Scanner;
 
+class Node {
+    int data;
+    Node next;
+}
+
 class QueueLL {
+    Node front = null, rear = null;
+    Node avail = null;
 
-    static class Node {
-        int data;
-        Node next;
-
-        Node(int data) {
-            this.data = data;
+    // Get node
+    Node getNode() {
+        Node temp;
+        if (avail != null) {
+            temp = avail;
+            avail = avail.next;
+        } else {
+            temp = new Node();
         }
+        temp.next = null;
+        return temp;
     }
 
-    Node front = null, rear = null;
+    // Free node
+    void freeNode(Node temp) {
+        temp.next = avail;
+        avail = temp;
+    }
 
-    
+    // Enqueue
     void enqueue(int x) {
-        Node newNode = new Node(x);
+        Node temp = getNode();
+        temp.data = x;
 
         if (rear == null) {
-            front = rear = newNode;
+            front = rear = temp;
         } else {
-            rear.next = newNode;
-            rear = newNode;
+            rear.next = temp;
+            rear = temp;
         }
 
-        System.out.println("Inserted " + x);
+        System.out.println("Inserted: " + x);
     }
 
-
+    // Dequeue
     void dequeue() {
         if (front == null) {
             System.out.println("Queue Underflow");
             return;
         }
 
-        System.out.println("Deleted " + front.data);
-        front = front.next;
+        Node temp = front;
+        System.out.println("Deleted: " + temp.data);
 
-        if (front == null) {
+        front = front.next;
+        if (front == null)
             rear = null;
-        }
+
+        freeNode(temp);
     }
 
-    
-
+    // Display
     void display() {
         if (front == null) {
-            System.out.println("Queue is empty");
+            System.out.println("Queue is Empty");
             return;
         }
 
         Node temp = front;
-        System.out.println("Queue elements:");
+        System.out.print("Queue: ");
         while (temp != null) {
-            System.out.println(temp.data);
+            System.out.print(temp.data + " -> ");
             temp = temp.next;
         }
+        System.out.println("NULL");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         QueueLL q = new QueueLL();
-        int choice, value;
+        int ch, val;
 
         do {
             System.out.println("\n--- QUEUE MENU ---");
@@ -70,14 +88,13 @@ class QueueLL {
             System.out.println("3. Display");
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
+            ch = sc.nextInt();
 
-            choice = sc.nextInt();
-
-            switch (choice) {
+            switch (ch) {
                 case 1:
                     System.out.print("Enter value: ");
-                    value = sc.nextInt();
-                    q.enqueue(value);
+                    val = sc.nextInt();
+                    q.enqueue(val);
                     break;
 
                 case 2:
@@ -95,6 +112,6 @@ class QueueLL {
                 default:
                     System.out.println("Invalid choice");
             }
-        } while (choice != 4);
+        } while (ch != 4);
     }
 }

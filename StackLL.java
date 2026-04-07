@@ -1,24 +1,40 @@
 import java.util.Scanner;
 
+class Node {
+    int data;
+    Node next;
+}
+
 class StackLL {
+    Node top = null;
+    Node avail = null;
 
-    static class Node {
-        int data;
-        Node next;
-
-        Node(int data) {
-            this.data = data;
+    // Get node
+    Node getNode() {
+        Node temp;
+        if (avail != null) {
+            temp = avail;
+            avail = avail.next;
+        } else {
+            temp = new Node();
         }
+        temp.next = null;
+        return temp;
     }
 
-    Node top = null;
+    // Free node
+    void freeNode(Node temp) {
+        temp.next = avail;
+        avail = temp;
+    }
 
     // Push
     void push(int x) {
-        Node newNode = new Node(x);
-        newNode.next = top;
-        top = newNode;
-        System.out.println("Inserted " + x);
+        Node temp = getNode();
+        temp.data = x;
+        temp.next = top;
+        top = temp;
+        System.out.println("Pushed: " + x);
     }
 
     // Pop
@@ -27,28 +43,31 @@ class StackLL {
             System.out.println("Stack Underflow");
             return;
         }
-        System.out.println("Deleted " + top.data);
+        Node temp = top;
+        System.out.println("Popped: " + temp.data);
         top = top.next;
+        freeNode(temp);
     }
 
     // Display
     void display() {
         if (top == null) {
-            System.out.println("Stack is empty");
+            System.out.println("Stack is Empty");
             return;
         }
         Node temp = top;
-        System.out.println("Stack elements:");
+        System.out.print("Stack: ");
         while (temp != null) {
-            System.out.println(temp.data);
+            System.out.print(temp.data + " -> ");
             temp = temp.next;
         }
+        System.out.println("NULL");
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         StackLL s = new StackLL();
-        int choice, value;
+        int ch, val;
 
         do {
             System.out.println("\n--- STACK MENU ---");
@@ -57,14 +76,13 @@ class StackLL {
             System.out.println("3. Display");
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
+            ch = sc.nextInt();
 
-            choice = sc.nextInt();
-
-            switch (choice) {
+            switch (ch) {
                 case 1:
                     System.out.print("Enter value: ");
-                    value = sc.nextInt();
-                    s.push(value);
+                    val = sc.nextInt();
+                    s.push(val);
                     break;
 
                 case 2:
@@ -82,6 +100,6 @@ class StackLL {
                 default:
                     System.out.println("Invalid choice");
             }
-        } while (choice != 4);
+        } while (ch != 4);
     }
 }
